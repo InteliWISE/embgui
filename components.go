@@ -202,9 +202,9 @@ func (n *EmbNode) FormButton(text string) *EmbNode {
 }
 
 // FormTextArea generates a textarea inside a form
-func (n *EmbNode) FormTextArea(name string, rows int) *EmbNode {
+func (n *EmbNode) FormTextArea(name string, rows int, text string) *EmbNode {
 	return n.add(&EmbNode{HTMLTag: "div", Class: "field"}).
-		add(&EmbNode{HTMLTag: "textarea", Class: "textarea", Name: name, Rows: rows})
+		add(&EmbNode{HTMLTag: "textarea", Class: "textarea", Name: name, Rows: rows, Text: text})
 }
 
 // SearchForm generates predefined search form

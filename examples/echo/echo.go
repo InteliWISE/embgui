@@ -70,7 +70,7 @@ func guiIndex(c echo.Context) error {
 	form := page.Form("/newuser", "POST")
 	form.FormInput("First Name", false, "first_name", "")
 	form.FormInput("Last Name", false, "last_name", "")
-	form.FormTextArea("desc", 10)
+	form.FormTextArea("desc", 10, "some text")
 	form.FormButton("Send")
 	page.Hr()
 	page.H5("Inline buttons")
