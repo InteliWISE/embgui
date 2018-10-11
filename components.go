@@ -78,9 +78,31 @@ func (n *EmbNode) A(text string, href string) *EmbNode {
 	return n.add(&EmbNode{Text: text, HTMLTag: "a", Href: href})
 }
 
+// Buttons generates <div> for button group
+func (n *EmbNode) Buttons() *EmbNode {
+	return n.add(&EmbNode{HTMLTag: "div", Class: "buttons"})
+}
+
 // LinkButton generates a link styled as button
 func (n *EmbNode) LinkButton(text string, href string) *EmbNode {
 	return n.add(&EmbNode{Text: text, HTMLTag: "a", Href: href, Class: "button is-link", Style: "margin: .25rem"})
+}
+
+// ActionButton generates POST button wrapped into a hidden form
+// It's like LinkButton, but uses POST instead of GET
+func (n *EmbNode) ActionButton(text string, action string) *EmbNode {
+	form := &EmbNode{HTMLTag: "form", Action: action, Method: "POST"}
+	form.add(&EmbNode{HTMLTag: "button", Type: "submit", Text: text, Class: "button is-primary", Style: "margin: .25rem"})
+	return n.add(form)
+}
+
+// DelButton generates DEL button wrapped into a hidden form
+// your framework should support hidden _method tag
+func (n *EmbNode) DelButton(text string, action string) *EmbNode {
+	form := &EmbNode{HTMLTag: "form", Action: action, Method: "POST"}
+	form.add(&EmbNode{HTMLTag: "input", Type: "hidden", Name: "_method", Value: "DELETE"})
+	form.add(&EmbNode{HTMLTag: "button", Type: "submit", Text: text, Class: "button is-danger", Style: "margin: .25rem"})
+	return n.add(form)
 }
 
 // MiniLinkButton generates a link styled as button, just like LinkButton(), but smaller
@@ -89,11 +111,21 @@ func (n *EmbNode) MiniLinkButton(text string, href string) *EmbNode {
 	return n.add(&EmbNode{Text: text, HTMLTag: "a", Href: href, Class: "button is-link is-small", Style: "margin: .25rem"})
 }
 
-// ActionButton generates POST button wrapped into a hidden form
-// It's like LinkButton, but uses POST instead of GET
-func (n *EmbNode) ActionButton(text string, action string) *EmbNode {
+// MiniActionButton generates POST button wrapped into a hidden form
+// it's good for buttons inside tables
+func (n *EmbNode) MiniActionButton(text string, action string) *EmbNode {
 	form := &EmbNode{HTMLTag: "form", Action: action, Method: "POST"}
-	form.add(&EmbNode{HTMLTag: "button", Type: "submit", Text: text, Class: "button is-primary", Style: "margin: .25rem"})
+	form.add(&EmbNode{HTMLTag: "button", Type: "submit", Text: text, Class: "button is-primary is-small", Style: "margin: .25rem"})
+	return n.add(form)
+}
+
+// MiniDelButton generates DEL button wrapped into a hidden form
+// it's good for buttons inside tables
+// your framework should support hidden _method tag
+func (n *EmbNode) MiniDelButton(text string, action string) *EmbNode {
+	form := &EmbNode{HTMLTag: "form", Action: action, Method: "POST"}
+	form.add(&EmbNode{HTMLTag: "input", Type: "hidden", Name: "_method", Value: "DELETE"})
+	form.add(&EmbNode{HTMLTag: "button", Type: "submit", Text: text, Class: "button is-danger is-small", Style: "margin: .25rem"})
 	return n.add(form)
 }
 
@@ -167,6 +199,12 @@ func (n *EmbNode) FormInput(label string, hideLabel bool, name string, value str
 func (n *EmbNode) FormButton(text string) *EmbNode {
 	return n.add(&EmbNode{HTMLTag: "div", Class: "control"}).
 		add(&EmbNode{HTMLTag: "button", Type: "sumbit", Class: "button", Text: text})
+}
+
+// FormTextArea generates a textarea inside a form
+func (n *EmbNode) FormTextArea(name string, rows int) *EmbNode {
+	return n.add(&EmbNode{HTMLTag: "div", Class: "field"}).
+		add(&EmbNode{HTMLTag: "textarea", Class: "textarea", Name: name, Rows: rows})
 }
 
 // SearchForm generates predefined search form
