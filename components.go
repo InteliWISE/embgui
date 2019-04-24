@@ -198,10 +198,16 @@ func (n *EmbNode) FormInput(label string, hideLabel bool, name string, value str
 // FileUpload generates a file upload form
 func (n *EmbNode) FileUpload(action string, label string, name string) *EmbNode {
 	realForm := n.add(&EmbNode{HTMLTag: "form", Action: action, Method: "POST", Enctype: "multipart/form-data"})
-	fieldWrapper := realForm.add(&EmbNode{HTMLTag: "div", Class: "field"})
-	fieldWrapper.add(&EmbNode{HTMLTag: "label", Class: "label", Text: label})
-	fieldWrapper.add(&EmbNode{HTMLTag: "div", Class: "control"}).
+	wrapper := realForm.add(&EmbNode{HTMLTag: "div", Class: "field"})
+	wrapper.
+		add(&EmbNode{HTMLTag: "div", Class: "control"}).
+		add(&EmbNode{HTMLTag: "label", Class: "label", Text: label})
+	wrapper.
+		add(&EmbNode{HTMLTag: "div", Class: "control"}).
 		add(&EmbNode{HTMLTag: "input", Type: "file", Class: "input", Name: name})
+	wrapper.
+		add(&EmbNode{HTMLTag: "div", Class: "control"}).
+		add(&EmbNode{HTMLTag: "button", Type: "sumbit", Class: "button is-info", Text: "Upload"})
 	return realForm
 }
 
