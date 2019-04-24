@@ -195,6 +195,20 @@ func (n *EmbNode) FormInput(label string, hideLabel bool, name string, value str
 	return fieldWrapper
 }
 
+// FormFileInput generates a file input inside form
+func (n *EmbNode) FormFileInput(label string, hideLabel bool, name string) *EmbNode {
+	fieldWrapper := n.add(&EmbNode{HTMLTag: "div", Class: "field"})
+	if hideLabel == false {
+		fieldWrapper.add(&EmbNode{HTMLTag: "label", Class: "label", Text: label})
+		fieldWrapper.add(&EmbNode{HTMLTag: "div", Class: "control"}).
+			add(&EmbNode{HTMLTag: "input", Type: "file", Class: "input", Name: name})
+	} else {
+		fieldWrapper.add(&EmbNode{HTMLTag: "div", Class: "control"}).
+			add(&EmbNode{HTMLTag: "input", Type: "file", Class: "input", Name: name, Placeholder: label})
+	}
+	return fieldWrapper
+}
+
 // FormButton generates a submit button inside a form
 func (n *EmbNode) FormButton(text string) *EmbNode {
 	return n.add(&EmbNode{HTMLTag: "div", Class: "control"}).
