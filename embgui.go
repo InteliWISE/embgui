@@ -29,6 +29,7 @@ type EmbNode struct {
 	Style       string
 	Name        string
 	ID          string
+	Enctype     string
 	Placeholder string
 	Value       string
 	Rows        int
@@ -107,6 +108,7 @@ func (n *EmbNode) startHTMLTag() string {
 	attr("style", n.Style, &buffer)
 	attr("name", n.Name, &buffer)
 	attr("value", n.Value, &buffer)
+	attr("enctype", n.Enctype, &buffer)
 	attr("rows", strconv.Itoa(n.Rows), &buffer)
 	attr("placeholder", n.Placeholder, &buffer)
 	buffer.WriteString(">")

@@ -195,18 +195,14 @@ func (n *EmbNode) FormInput(label string, hideLabel bool, name string, value str
 	return fieldWrapper
 }
 
-// FormFileInput generates a file input inside form
-func (n *EmbNode) FormFileInput(label string, hideLabel bool, name string) *EmbNode {
-	fieldWrapper := n.add(&EmbNode{HTMLTag: "div", Class: "field"})
-	if hideLabel == false {
-		fieldWrapper.add(&EmbNode{HTMLTag: "label", Class: "label", Text: label})
-		fieldWrapper.add(&EmbNode{HTMLTag: "div", Class: "control"}).
-			add(&EmbNode{HTMLTag: "input", Type: "file", Class: "input", Name: name})
-	} else {
-		fieldWrapper.add(&EmbNode{HTMLTag: "div", Class: "control"}).
-			add(&EmbNode{HTMLTag: "input", Type: "file", Class: "input", Name: name, Placeholder: label})
-	}
-	return fieldWrapper
+// FileUpload generates a file upload form
+func (n *EmbNode) FileUpload(action string, label string, name string) *EmbNode {
+	realForm := n.add(&EmbNode{HTMLTag: "form", Action: action, Method: "POST", Enctype: "multipart/form-data"})
+	fieldWrapper := realForm.add(&EmbNode{HTMLTag: "div", Class: "field"})
+	fieldWrapper.add(&EmbNode{HTMLTag: "label", Class: "label", Text: label})
+	fieldWrapper.add(&EmbNode{HTMLTag: "div", Class: "control"}).
+		add(&EmbNode{HTMLTag: "input", Type: "file", Class: "input", Name: name})
+	return realForm
 }
 
 // FormButton generates a submit button inside a form
