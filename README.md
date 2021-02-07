@@ -91,8 +91,6 @@ func main() {
 }
 ```
 
-Check the `examples` directory for a [Echo](https://echo.labstack.com/) framework sample app.
-
 This is still WIP! Things may change before it reaches 1.0.0!
 
 ## Developent goals
