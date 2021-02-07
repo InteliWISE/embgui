@@ -42,13 +42,14 @@ type EmbNode struct {
 
 // EmbGUI is a HTML page, with one root EmbNode with many children
 type EmbGUI struct {
-	CSS      string
-	Size     string
-	NavTheme string
-	NavLink  string
-	title    string
-	cssLink  string
-	menu     []MenuItem
+	CSS        string
+	Size       string
+	NavTheme   string
+	NavLink    string
+	CustomHead string
+	title      string
+	cssLink    string
+	menu       []MenuItem
 }
 
 // MenuItem is an singe item in the top menu
@@ -109,7 +110,9 @@ func (n *EmbNode) startHTMLTag() string {
 	attr("name", n.Name, &buffer)
 	attr("value", n.Value, &buffer)
 	attr("enctype", n.Enctype, &buffer)
-	attr("rows", strconv.Itoa(n.Rows), &buffer)
+	if n.HTMLTag == "textarea" {
+		attr("rows", strconv.Itoa(n.Rows), &buffer)
+	}
 	attr("placeholder", n.Placeholder, &buffer)
 	buffer.WriteString(">")
 	return buffer.String()
@@ -186,6 +189,7 @@ func (n *EmbNode) RenderPage() (string, error) {
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<title>%s</title>
 			<link rel="stylesheet" href="%s">
+			%s
 		</head>
 		<body>
 			<nav class="navbar %s">
@@ -213,6 +217,7 @@ func (n *EmbNode) RenderPage() (string, error) {
 	</html>
 	`, n.GUIConfig.title,
 		n.GUIConfig.cssLink,
+		n.GUIConfig.CustomHead,
 		n.GUIConfig.NavTheme,
 		n.GUIConfig.NavLink,
 		n.GUIConfig.title,
