@@ -1,5 +1,3 @@
-module github.com/InteliWISE/embgui
+module github.com/inteliwise/embgui
 
-go 1.15
-
-require github.com/inteliwise/embgui v0.2.0
+go 1.16
